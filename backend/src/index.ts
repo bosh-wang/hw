@@ -7,9 +7,9 @@ dotenv.config()
 const server = serverOf()
 
 const appConfig: AppConfig = {
-  host: process.env.HOST || 'localhost',
-  port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-  mongoConnectionString: process.env.MONGO_CONNECTION_STRING || ''
+  host: '0.0.0.0',
+  port: 8888,
+  mongoConnectionString: "mongodb://mongodb-server:27017/app"
 }
 
 serverStart(appConfig)(server)
