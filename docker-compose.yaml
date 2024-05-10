@@ -4,33 +4,15 @@ services:
     build: ./frontend  
     ports:
       - "5173:5173"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.5
     depends_on:
       - backend  
   backend:
     build: ./backend 
     ports:
       - "8888:8888" 
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.6
     depends_on:
-      - mongodb  
-
-  mongodb:
-    container_name: mongodb-server
+      - mongodb-server
+  mongodb-server:
     image: mongo:latest  
     ports:
       - "27017:27017"  
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.7
-networks:
-  vpcbr:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 10.5.0.0/16
-         gateway: 10.5.0.1

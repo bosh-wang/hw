@@ -23,6 +23,7 @@ export const TodoRouter = (server: FastifyInstance, opts: RouteShorthandOptions,
 
   server.post<{ Body: TodoBody }>('/v1/todos', async (request, reply) => {
     try {
+      console.log(request.body)
       const todoBody = request.body
       const todo = await addTodo(todoBody)
       return reply.status(201).send({ todo })

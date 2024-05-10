@@ -9,7 +9,7 @@ const server = serverOf()
 const appConfig: AppConfig = {
   host: '0.0.0.0',
   port: 8888,
-  mongoConnectionString: "mongodb://mongodb-server:27017/app"
+  mongoConnectionString: "mongodb://mongodb-server:27017"
 }
 
 serverStart(appConfig)(server)
