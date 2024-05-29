@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
+  type: ClusterIP
   selector:
     app: frontend
   ports:
@@ -15,6 +16,7 @@ kind: Service
 metadata:
   name: backend-service
 spec:
+  type: ClusterIP
   selector:
     app: backend
   ports:
@@ -27,6 +29,7 @@ kind: Service
 metadata:
   name: mongodb-service
 spec:
+  type: ClusterIP
   selector:
     app: mongodb
   ports:

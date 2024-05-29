@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ghcr.io/bosh-wang/frontend-image
+        image: ghcr.io/bosh-wang/frontend-image:latest
         ports:
         - containerPort: 5173
 ---
@@ -23,7 +23,7 @@ kind: Deployment
 metadata:
   name: backend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/bosh-wang/backend-image
+        image: ghcr.io/bosh-wang/backend-image:latest
         ports:
         - containerPort: 8888
 ---
@@ -43,7 +43,7 @@ kind: Deployment
 metadata:
   name: mongodb-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mongodb
