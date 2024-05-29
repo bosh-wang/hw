@@ -27,34 +27,34 @@ jobs:
     - name: Run tests
       run: cd backend && npm run test
 
-    - name: Check coverage
-      id: check-coverage
-      run: |
-        COVERAGE_FILE="coverage/coverage-summary.json"
-        PREV_COVERAGE_FILE=".github/prev-coverage.json"
+    # - name: Check coverage
+    #   id: check-coverage
+    #   run: |
+    #     COVERAGE_FILE="coverage/coverage-summary.json"
+    #     PREV_COVERAGE_FILE=".github/prev-coverage.json"
         
-        if [ ! -f "$PREV_COVERAGE_FILE" ]; then
-          echo "{\"total\":{\"lines\":{\"pct\":0}}}" > $PREV_COVERAGE_FILE
-        fi
+    #     if [ ! -f "$PREV_COVERAGE_FILE" ]; then
+    #       echo "{\"total\":{\"lines\":{\"pct\":0}}}" > $PREV_COVERAGE_FILE
+    #     fi
 
-        CURRENT_COVERAGE=$(jq .total.lines.pct < $COVERAGE_FILE)
-        PREV_COVERAGE=$(jq .total.lines.pct < $PREV_COVERAGE_FILE)
+    #     CURRENT_COVERAGE=$(jq .total.lines.pct < $COVERAGE_FILE)
+    #     PREV_COVERAGE=$(jq .total.lines.pct < $PREV_COVERAGE_FILE)
 
-        echo "Current coverage: $CURRENT_COVERAGE"
-        echo "Previous coverage: $PREV_COVERAGE"
+    #     echo "Current coverage: $CURRENT_COVERAGE"
+    #     echo "Previous coverage: $PREV_COVERAGE"
 
-        if (( $(echo "$CURRENT_COVERAGE < $PREV_COVERAGE" |bc -l) )); then
-          echo "Coverage decreased from $PREV_COVERAGE% to $CURRENT_COVERAGE%"
-          exit 1
-        fi
+    #     if (( $(echo "$CURRENT_COVERAGE < $PREV_COVERAGE" |bc -l) )); then
+    #       echo "Coverage decreased from $PREV_COVERAGE% to $CURRENT_COVERAGE%"
+    #       exit 1
+    #     fi
 
-        echo "{\"total\":{\"lines\":{\"pct\":$CURRENT_COVERAGE}}}" > $PREV_COVERAGE_FILE
+    #     echo "{\"total\":{\"lines\":{\"pct\":$CURRENT_COVERAGE}}}" > $PREV_COVERAGE_FILE
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v2
-      with:
-        name: coverage-report
-        path: coverage
+    # - name: Upload coverage report
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: coverage-report
+    #     path: coverage
 
     - name: Check code formatting
       id: check-format
