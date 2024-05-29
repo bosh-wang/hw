@@ -1,0 +1,76 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Generate coverage report
+      run: npm run coverage
+
+    - name: Check coverage
+      id: check-coverage
+      run: |
+        COVERAGE_FILE="coverage/coverage-summary.json"
+        PREV_COVERAGE_FILE=".github/prev-coverage.json"
+        
+        if [ ! -f "$PREV_COVERAGE_FILE" ]; then
+          echo "{\"total\":{\"lines\":{\"pct\":0}}}" > $PREV_COVERAGE_FILE
+        fi
+
+        CURRENT_COVERAGE=$(jq .total.lines.pct < $COVERAGE_FILE)
+        PREV_COVERAGE=$(jq .total.lines.pct < $PREV_COVERAGE_FILE)
+
+        echo "Current coverage: $CURRENT_COVERAGE"
+        echo "Previous coverage: $PREV_COVERAGE"
+
+        if (( $(echo "$CURRENT_COVERAGE < $PREV_COVERAGE" |bc -l) )); then
+          echo "Coverage decreased from $PREV_COVERAGE% to $CURRENT_COVERAGE%"
+          exit 1
+        fi
+
+        echo "{\"total\":{\"lines\":{\"pct\":$CURRENT_COVERAGE}}}" > $PREV_COVERAGE_FILE
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-report
+        path: coverage
+
+    - name: Check code formatting
+      id: check-format
+      run: |
+        npx prettier --check .
+
+    - name: Format code
+      if: steps.check-format.outcome == 'failure'
+      run: |
+        npx prettier --write .
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git checkout -b format-branch
+        git add .
+        git commit -m "Format code with Prettier"
+        git push origin format-branch
