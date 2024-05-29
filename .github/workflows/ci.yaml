@@ -58,8 +58,7 @@ jobs:
 
     - name: Check code formatting
       id: check-format
-      run: |
-        npx prettier --check .
+      run: cd backend && npx prettier --check .
 
     - name: Format code
       if: steps.check-format.outcome == 'failure'
