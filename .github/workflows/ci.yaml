@@ -22,14 +22,10 @@ jobs:
         node-version: '16'
 
     - name: Install dependencies
-      run: |
-      cd backend\
-      npm install
+      run: cd backend && npm install
 
     - name: Run tests
-      run: |
-      cd backend\
-      npm run test
+      run: cd backend && npm run test
 
     - name: Check coverage
       id: check-coverage
