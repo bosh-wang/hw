@@ -35,20 +35,15 @@ jobs:
         docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:latest .
         docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:latest
 
-    # - name: Deploy to GCP VM
-    #   env:
-    #     GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
-    #     GCP_SSH_USER: ${{ secrets.GCP_SSH_USER }}
-    #     GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
-    #   run: |
-    #     echo "$GCP_SSH_KEY" > gcp_ssh_key
-    #     chmod 600 gcp_ssh_key
-    #     ssh -o StrictHostKeyChecking=no -i gcp_ssh_key $GCP_SSH_USER@$GCP_VM_IP << 'EOF'
-    #       docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:${{ github.sha }}
-    #       docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:${{ github.sha }}
-    #       cd /path/to/your/docker-compose-directory
-    #       sed -i "s|ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:.*|ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:${{ github.sha }}|g" docker-compose.yml
-    #       sed -i "s|ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:.*|ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:${{ github.sha }}|g" docker-compose.yml
-    #       docker-compose down
-    #       docker-compose up -d
-    #     EOF
+    - name: Deploy to GCP VM
+      env:
+        GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
+        GCP_SSH_USER: wangbosh0604
+        GCP_VM_IP: 35.239.136.96
+      run: |
+        echo "$GCP_SSH_KEY" > gcp_ssh_key
+        chmod 600 gcp_ssh_key
+        ssh -o StrictHostKeyChecking=no -i gcp_ssh_key $GCP_SSH_USER@$GCP_VM_IP << 'EOF'
+          docker-compose down
+          docker-compose up -d
+        EOF

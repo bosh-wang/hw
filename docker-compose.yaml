@@ -1,13 +1,13 @@
 version: '3'
 services:
   frontend:
-    build: ./frontend  
+    image: ghcr.io/bosh-wang/bosh-wang/hw-frontend:latest
     ports:
       - "5173:5173"
     depends_on:
       - backend  
   backend:
-    build: ./backend 
+    image: ghcr.io/bosh-wang/bosh-wang/hw-backend:latest
     ports:
       - "8888:8888" 
     depends_on:
