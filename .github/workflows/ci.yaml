@@ -34,16 +34,16 @@ jobs:
       if: steps.compare-coverage.outcome == 'failure'
       run: exit 1
 
-    # - name: Format code
-    #   id: format-code
-    #   run: |
-    #     git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep -E '\.js$' | xargs npx prettier --write
+    - name: Format code
+      id: format-code
+      run: |
+        git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep -E '\.js$' | xargs npx prettier --write
 
-    # - name: Commit formatted code
-    #   if: steps.format-code.outputs.changed == 'true'
-    #   run: |
-    #     git config --global user.name 'github-actions'
-    #     git config --global user.email 'github-actions@github.com'
-    #     git add .
-    #     git commit -m 'chore: format code with Prettier'
-    #     git push
+    - name: Commit formatted code
+      if: steps.format-code.outputs.changed == 'true'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add .
+        git commit -m 'chore: format code with Prettier'
+        git push

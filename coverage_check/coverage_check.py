@@ -31,7 +31,7 @@ def main():
     print(f"current coverage: {current_coverage}%")
     print(f"former coverage: {previous_coverage}%")
 
-    if current_coverage > previous_coverage:
+    if current_coverage >= previous_coverage:
         print("higher")
         save_coverage(previous_coverage_file, current_coverage)
         return True
