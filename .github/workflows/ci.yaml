@@ -30,17 +30,20 @@ jobs:
     - name: Compare coverage
       run: cd coverage_check && python coverage_check.py
 
-    # - name: Check code formatting
-    #   id: check-format
-    #   run: cd backend && npx prettier --check .
+    - name: Check coverage result
+      if: steps.compare-coverage.outcome == 'failure'
+      run: exit 1
 
     # - name: Format code
-    #   if: steps.check-format.outcome == 'failure'
+    #   id: format-code
     #   run: |
-    #     npx prettier --write .
-    #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
-    #     git config --global user.name "github-actions[bot]"
-    #     git checkout -b format-branch
+    #     git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep -E '\.js$' | xargs npx prettier --write
+
+    # - name: Commit formatted code
+    #   if: steps.format-code.outputs.changed == 'true'
+    #   run: |
+    #     git config --global user.name 'github-actions'
+    #     git config --global user.email 'github-actions@github.com'
     #     git add .
-    #     git commit -m "Format code with Prettier"
-    #     git push origin format-branch
+    #     git commit -m 'chore: format code with Prettier'
+    #     git push
