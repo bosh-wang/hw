@@ -34,10 +34,10 @@ def main():
     if current_coverage > previous_coverage:
         print("higher")
         save_coverage(previous_coverage_file, current_coverage)
-        return True
+        return 
     else:
         print("lower")
-        return False
+        return 
 
 if __name__ == "__main__":
     main()
