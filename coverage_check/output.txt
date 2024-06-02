@@ -11,7 +11,7 @@
 
  Test Files  2 passed (2)
       Tests  2 passed (2)
-   Start at  07:16:03
+   Start at  07:16:03 
    Duration  1.39s (transform 158ms, setup 0ms, collect 763ms, tests 41ms, environment 0ms, prepare 232ms)
 
  % Coverage report from v8
