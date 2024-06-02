@@ -26,14 +26,14 @@ jobs:
     - name: Build and push frontend Docker image
       run: |
         cd frontend
-        docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:${{ github.sha }} .
-        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:${{ github.sha }}
+        docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:latest .
+        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-frontend:latest
 
     - name: Build and push backend Docker image
       run: |
         cd backend
-        docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:${{ github.sha }} .
-        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:${{ github.sha }}
+        docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:latest .
+        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}-backend:latest
 
     # - name: Deploy to GCP VM
     #   env:
