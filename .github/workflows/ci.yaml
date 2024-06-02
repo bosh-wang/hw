@@ -28,7 +28,7 @@ jobs:
       run: cd backend && npm run test > ../coverage_check/output.txt
 
     - name: Compare coverage
-      run: cd Coverage_check && python compare_coverage.py
+      run: cd coverage_check && python coverage_check.py
 
     # - name: Check code formatting
     #   id: check-format
